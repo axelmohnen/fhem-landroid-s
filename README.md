@@ -7,6 +7,7 @@ Worx Landroid-S Module for FHEM SmartHome
 ```
 - 1.0 (23.09.17): Receive Readings from Landroid S Mower
 - 1.1 (25.11.17): set Mower commands and change configuration is now supported
+- 1.2 (06.02.18): No polling to AWS server (Worx compliant)
 ```
 Installation Guide on Raspberry PI (Debian)
 
