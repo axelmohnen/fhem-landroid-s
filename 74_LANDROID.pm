@@ -160,6 +160,19 @@ sub LANDROID_Attr(@) {
 			}
 		}
     }
+
+# ---------- Set Attribute "port" --------------------------------------------------------------	
+    if( $attrName eq "port" ) {
+		if( $cmd eq "set" ) {
+			$hash->{PORT} = $attrVal;
+			Log3 $name, 3, "LANDROID ($name) - set port to $attrVal";
+
+		}
+		elsif( $cmd eq "del" ) {
+			$hash->{PORT} = 8001;
+			Log3 $name, 3, "LANDROID ($name) - set port to default";
+		} 
+    }
     
     return undef;
 	
