@@ -50,6 +50,7 @@ sub LANDROID_Initialize($) {
     
     $hash->{AttrList} 		= 	"disable:1,0 " .
 							"interval " .
+							"port " .
 							$readingFnAttributes;
 }
 
