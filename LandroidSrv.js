@@ -14,7 +14,13 @@
 	var connected = false;
 	var WSRunning = false;
 	var server;
-
+	
+	// Get Mower ID
+	function getMoverId(){
+		var mowerId = process.argv[0]; //We only expect one value
+  		return mowerId;
+	}
+	
 	// Build Timestamp
 	function getTimestamp() {
 		var date = new Date();
@@ -413,16 +419,25 @@
 		}
 	}
 	
-	// Set adapter configuration 
-	var adapter = { config: LandroidConf,
-					log: { info: function(msg) { adapter.msg.info.push(msg);},
+	// Retrieve mover ID
+	var mowerId = getMoverId();
+
+	if (mowerId){
+		// Set adapter configuration
+		var adapter = { config: LandroidConf.[mowerId],
+				log: { info: function(msg) { adapter.msg.info.push(msg);},
 					       error: function(msg) { adapter.msg.error.push(msg);},
 					       debug: function(msg) { adapter.msg.debug.push(msg);},
 					       warn: function(msg) { adapter.msg.warn.push(msg);}},
-					msg: { info: [],
-						   error: [],
-						   debug: [],
-		       				warn: [] }};
+				msg: { 	info: [],
+					error: [],
+					debug: [],
+		       			warn: [] }};
 	
-	// Establishh connection to MQTT Broker
-	main();
+		// Establishh connection to MQTT Broker
+		main();
+	}
+	else{
+		console.log("Mower ID is missing!");
+
+	}
