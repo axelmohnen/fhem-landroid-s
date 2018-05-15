@@ -192,6 +192,7 @@ sub LANDROID_Set($$$@) {
 	$list .= "changeCfgArea:textField ";				# [area ID 0-3], [Starting point 0-500]
 	$list .= "startSequences:textField ";				# [start sequence 0-3 up to 10 sequences possible]
 	$list .= "changeRainDelay:slider,0,1,300 ";  		# [minutes 0 to 300]
+	$list .= "resetBladeTimeCounter:noArg ";		#no Value needed
 	
 	if( $cmd eq 'startMower' 			||
 	    $cmd eq 'stopMower' 			||
@@ -230,6 +231,9 @@ sub LANDROID_Set($$$@) {
 		
 # ---------- Fire Landoid command -----------------------------------------------------------------	
 	    return LANDROID_FireSetCmd( $hash, $cmd, $val );
+	}
+	elsif($cmd eq 'resetBladeTimeCounter'){
+# ---------- Handle reset of blade time counter ---------------------------------------------------	
 	}
 
 	return "Unknown argument $cmd, bearword as argument or wrong parameter(s), choose one of $list";
