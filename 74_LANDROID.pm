@@ -511,8 +511,7 @@ sub LANDROID_RetrieveReadings($){
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	 
 	 $t = "bladeTimeCounter";
-	 $v = 
-	 #if (ReadingsVal( $hash->{NAME}, "bladeTimeOffset", 0 )
+	 readingsBulkUpdate( $hash, $t, ($v - $hash->{helper}{bladeTimeOffset}) );
 	 
 	# Battery Status
 	 $t = "batteryChargeCycle";
