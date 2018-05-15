@@ -235,7 +235,8 @@ sub LANDROID_Set($$$@) {
 	}
 	elsif($cmd eq 'resetBladeTimeCounter'){
 # ---------- Handle reset of blade time counter ---------------------------------------------------
-		$hash->{helper}{bladeTimeOffset} = 0;
+		$hash->{helper}{bladeTimeOffset} = ReadingsVal( $hash->{NAME}, "totalBladeTime", 0 );
+		
 	}
 
 	return "Unknown argument $cmd, bearword as argument or wrong parameter(s), choose one of $list";
@@ -508,6 +509,8 @@ sub LANDROID_RetrieveReadings($){
 	 $t = "totalBladeTime";
 	 $v = $data_decoded->{'dat'}{'st'} && $data_decoded->{'dat'}{'st'}{'b'} ? $data_decoded->{'dat'}{'st'}{'b'} : undef;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 
+	 #if (ReadingsVal( $hash->{NAME}, "bladeTimeOffset", 0 )
 	 
 	# Battery Status
 	 $t = "batteryChargeCycle";
