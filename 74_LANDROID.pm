@@ -466,7 +466,7 @@ sub LANDROID_RetrieveReadings($){
 		 12 => "Remote control",
 		 30 => "Going home",
 		 31 => "31 unkown",
-		 32 => "32 unkown"
+		 32 => "Edge cutting"
 	 );
 	
 	 my %errorCodes = (
