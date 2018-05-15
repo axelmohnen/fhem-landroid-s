@@ -72,6 +72,7 @@ sub LANDROID_Define($$) {
     $hash->{INTERVAL} 	= $interval;
     $hash->{helper}{requestErrorCounter} = 0;
     $hash->{helper}{setErrorCounter} = 0;
+    $hash->{helper}{bladeTimeOffset} = 0;
 
 	Log3 $name, 3, "LANDROID ($name) - defined with host $hash->{HOST} on port $hash->{PORT} and interval $hash->{INTERVAL} (sec)";
 	
@@ -233,7 +234,8 @@ sub LANDROID_Set($$$@) {
 	    return LANDROID_FireSetCmd( $hash, $cmd, $val );
 	}
 	elsif($cmd eq 'resetBladeTimeCounter'){
-# ---------- Handle reset of blade time counter ---------------------------------------------------	
+# ---------- Handle reset of blade time counter ---------------------------------------------------
+		$hash->{helper}{bladeTimeOffset} = 0;
 	}
 
 	return "Unknown argument $cmd, bearword as argument or wrong parameter(s), choose one of $list";
