@@ -463,7 +463,10 @@ sub LANDROID_RetrieveReadings($){
 		 9 => "Trapped",
 		 10 => "Blade blocked",
 		 11 => "Debug",
-		 12 => "Remote control"
+		 12 => "Remote control",
+		 30 => "Going home",
+		 31 => "31 unkown",
+		 32 => "32 unkown"
 	 );
 	
 	 my %errorCodes = (
