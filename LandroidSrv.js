@@ -79,7 +79,7 @@
 					response.end("Invalid path: " + path);
 					console.log(getTimestamp() + " --> Landroid WebServer: Invalid path received: " + path);
 			}
-		}).listen(LandroidConf.[mowerId].port);
+		}).listen(LandroidConf[mowerId].port);
 		console.log(getTimestamp() + " --> Landroid WebServer: server initialized");
 
 	}
@@ -425,7 +425,7 @@
 	
 	if (mowerId){
 		// Set adapter configuration 
-		var adapter = { config: LandroidConf.[mowerId],
+		var adapter = { config: LandroidConf[mowerId],
 					log: { info: function(msg) { adapter.msg.info.push(msg);},
 					       error: function(msg) { adapter.msg.error.push(msg);},
 					       debug: function(msg) { adapter.msg.debug.push(msg);},
