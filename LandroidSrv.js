@@ -14,6 +14,7 @@
 	var connected = false;
 	var WSRunning = false;
 	var server;
+	var mowerId;
 	
 	// Get Mower ID
 	function getMoverId(){
@@ -78,7 +79,7 @@
 					response.end("Invalid path: " + path);
 					console.log(getTimestamp() + " --> Landroid WebServer: Invalid path received: " + path);
 			}
-		}).listen(8001);
+		}).listen(LandroidConf.[mowerId].port);
 		console.log(getTimestamp() + " --> Landroid WebServer: server initialized");
 
 	}
@@ -420,11 +421,11 @@
 	}
 	
 	// Retrieve mover ID
-	var mowerId = getMoverId();
+	mowerId = getMoverId();
 	
 	if (mowerId){
 		// Set adapter configuration 
-		var adapter = { config: LandroidConf,
+		var adapter = { config: LandroidConf.[mowerId],
 					log: { info: function(msg) { adapter.msg.info.push(msg);},
 					       error: function(msg) { adapter.msg.error.push(msg);},
 					       debug: function(msg) { adapter.msg.debug.push(msg);},
