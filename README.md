@@ -5,9 +5,9 @@ Worx Landroid-S Module for FHEM SmartHome
 
 ## Change Log
 ```
-- 1.0 (23.09.17): Receive Readings from Landroid S Mower
-- 1.1 (25.11.17): set Mower commands and change configuration is now supported
-- 1.2 (06.02.18): No polling to AWS server (Worx compliant)
+- 1.0 (23.09.17): 	Receive Readings from Landroid S Mower
+- 1.1 (25.11.17): 	set Mower commands and change configuration is now supported
+- 1.2 (06.02.18): 	No polling to AWS server (Worx compliant)
 - 1.3 (xx.xx.18): 	Auto Readings update after FHEM restart
 			Enable multi mower configuration
 			Counter for totalBladeTime with reset function
