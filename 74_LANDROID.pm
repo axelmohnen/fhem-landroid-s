@@ -110,19 +110,19 @@ sub LANDROID_Attr(@) {
 		if( $cmd eq "set" ) {
 			if( $attrVal eq "0" ) {
 				RemoveInternalTimer( $hash );
-				InternalTimer( gettimeofday()+2, "LANDROID_Get_stateRequest", $hash) if( ReadingsVal( $hash->{NAME}, "state", 0 ) eq "disabled" );
+				InternalTimer(gettimeofday()+2, "LANDROID_Get_stateRequest", $hash);
 				readingsSingleUpdate ( $hash, "state", "active", 1 );
 				Log3 $name, 3, "LANDROID ($name) - enabled";
 			} 
 			else {
-				readingsSingleUpdate ( $hash, "state", "disabled", 1 );
 				RemoveInternalTimer( $hash );
+				readingsSingleUpdate ( $hash, "state", "disabled", 1 );	
 				Log3 $name, 3, "LANDROID ($name) - disabled";
 			}
 		}
 		elsif( $cmd eq "del" ) {
 			RemoveInternalTimer( $hash );
-			InternalTimer( gettimeofday()+2, "LANDROID_Get_stateRequest", $hash) if( ReadingsVal( $hash->{NAME}, "state", 0 ) eq "disabled" );
+			InternalTimer(gettimeofday()+2, "LANDROID_Get_stateRequest", $hash);
 			readingsSingleUpdate ( $hash, "state", "active", 1 );
 			Log3 $name, 3, "LANDROID ($name) - enabled";
 		} 
@@ -597,6 +597,8 @@ sub LANDROID_RetrieveReadings($){
 	 $t = "mowTimeExtend";
 	 $v = $data_decoded->{'cfg'}{'sc'} && $data_decoded->{'cfg'}{'sc'}{'p'} ? $data_decoded->{'cfg'}{'sc'}{'p'} : 0;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 
+	 #Prefill Mow time extend SET slider (reading must be the same name as SET command)
 	 $t = "changeCfgTimeExtend";
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
