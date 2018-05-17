@@ -167,7 +167,6 @@ sub LANDROID_Attr(@) {
 		if( $cmd eq "set" ) {
 			$hash->{PORT} = $attrVal;
 			Log3 $name, 3, "LANDROID ($name) - set port to $attrVal";
-
 		}
 		elsif( $cmd eq "del" ) {
 			$hash->{PORT} = 8001;
