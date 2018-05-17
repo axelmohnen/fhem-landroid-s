@@ -597,6 +597,8 @@ sub LANDROID_RetrieveReadings($){
 	 $t = "mowTimeExtend";
 	 $v = $data_decoded->{'cfg'}{'sc'} && $data_decoded->{'cfg'}{'sc'}{'p'} ? $data_decoded->{'cfg'}{'sc'}{'p'} : 0;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 $t = "changeCfgTimeExtend";
+	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	#Calendar
 	 @calendar = @{ $data_decoded->{'cfg'}{'sc'}{'d'} };
