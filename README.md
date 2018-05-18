@@ -115,6 +115,7 @@ Installation Guide on Raspberry PI (Debian)
     Press "Save config"
     
     Set attribute “disable” equal 0 (default = 1)
+    
     Set attribute "port" if differ to default port 8001
 
     Press "Save config"
@@ -131,8 +132,11 @@ Installation Guide on Raspberry PI (Debian)
     $ npm install pm2 -g
   
   - Start your landroid server in background
+  
     Run command for each mower (mower1, mower2, etc...)
+    
     $ pm2 start /opt/landroid/fhem-landroid-s/LandroidSrv.js -f -- mower1
+    
     $ pm2 start /opt/landroid/fhem-landroid-s/LandroidSrv.js -f -- mower2
   
   - Check Process Monitoring (your landroid server must be up and running before continuing)
