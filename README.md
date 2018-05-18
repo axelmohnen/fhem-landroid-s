@@ -12,7 +12,7 @@ Worx Landroid-S Module for FHEM SmartHome
 			Enable multi mower configuration
 			Counter for totalBladeTime with reset function
 			New mower status support
-			MowTimeExtent default value equal zero (FHEMWEB)
+			Set sliders for MowTimeExtent and MowRainDelay values prefilled (FHEMWEB)
 ```
 Installation Guide on Raspberry PI (Debian)
 
@@ -76,9 +76,9 @@ Installation Guide on Raspberry PI (Debian)
     
     $ nano LandroidConf.json
     
-      Change email address
+      Change email address for mower1 (if you have more mowers please enter email for mower2 etc..)
       
-      Change password
+      Change password for mower1 (if you have more mowers please enter pwd for mower2 etc..)
       
       Press CTRL-o  to save changes
       
@@ -88,7 +88,7 @@ Installation Guide on Raspberry PI (Debian)
       
   - Execute node server for testing (exit afterwards with CTRL-C)
   
-    $ node LandroidSrv.js
+    $ node LandroidSrv.js mower1
     
     Result:
     
@@ -108,13 +108,14 @@ Installation Guide on Raspberry PI (Debian)
   
     $ sudo apt-get install libjson-pp-perl
     
-  -	Define Landroid device in FHEMWEB. Use "localhost" as host if the LandroidSrv10.js is running on same machine. Otherwise choose the     IP address of external server. The default port is 8001 and must not be defined.
+  -	Define Landroid device in FHEMWEB. Use "localhost" as host if the LandroidSrv.js is running on same machine. Otherwise choose the     IP address of external server. The default port is 8001 and must not be defined.
   
     define robbi LANDROID localhost
     
     Press "Save config"
     
     Set attribute “disable” equal 0 (default = 1)
+    Set attribute "port" if differ to default port 8001
 
     Press "Save config"
     
@@ -130,8 +131,9 @@ Installation Guide on Raspberry PI (Debian)
     $ npm install pm2 -g
   
   - Start your landroid server in background
-  
-    $ pm2 start /opt/landroid/fhem-landroid-s/LandroidSrv.js
+    Run command for each mower (mower1, mower2, etc...)
+    $ pm2 start /opt/landroid/fhem-landroid-s/LandroidSrv.js -f -- mower1
+    $ pm2 start /opt/landroid/fhem-landroid-s/LandroidSrv.js -f -- mower2
   
   - Check Process Monitoring (your landroid server must be up and running before continuing)
   
@@ -183,5 +185,6 @@ Installation Guide on Raspberry PI (Debian)
   ```
   
   - changeRainDelay: Set Rain delay in minutes (value between 0 and 300)
+  - resetBladeTimeCounter: Resets the READING "bladeTimeCounter"
   
 
