@@ -75,6 +75,33 @@ Installation Guide on Raspberry PI (Debian)
   - Edit Landroid Adapter config File (Worx Login data)
     
     $ nano LandroidConf.json
+    {
+	"mower1": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"port": 8001
+	},
+	"mower2": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"port": 8002
+	},
+	"mower3": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"port": 8003
+	},
+	"mower4": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"port": 8004
+	},
+	"mower5": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"port": 8005
+	}
+   }
     
       Change email address for mower1 (if you have more mowers please enter email for mower2 etc..)
       
