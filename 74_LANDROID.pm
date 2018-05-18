@@ -666,32 +666,6 @@ sub LANDROID_RetrieveReadings($){
      return;
  }
  
- # ---------- Get Readings from Worx Landroid Amazon Web Service (AWS Cloud Service - MQTT Broker) -
-sub LANDROID_GetReadings($) {
-    my ( $hash ) = @_;
-    my $name = $hash->{NAME};
-    my $host = $hash->{HOST};
-    my $port = $hash->{PORT};
-	
-	my $url = "http://" . $host . ":" . $port . "/getMessage";
-	
-	HttpUtils_NonblockingGet(
-		{
-			url			=> $url,
-			timeout		=> 10,
-			hash		=> $hash,
-			method		=> "GET",
-			header     	=> "agent: TeleHeater/2.2.3\r\nUser-Agent: TeleHeater/2.2.3\r\nAccept: application/json",
-			callback	=> \&LANDROID_RetrieveReadings
-		}
-	);
-	
-	Log3 $name, 4, "LANDROID ($name) - NonblockingGet get URL";
-    Log3 $name, 4, "LANDROID ($name) - LANDROID_RetrieveReadings: calling Host: $host";
-	
-	return undef;
-}
-
 # ---------- Callback function -> retieve data from Amazon MQTT broker ----------------------------
 sub LANDROID_ResponseSetCmd($){
     my ($param, $err, $data) = @_;
