@@ -18,7 +18,7 @@
 	
 	// Get Mower ID
 	function getMoverId(){
-		var mowerId = process.argv[0]; //We only expect one value
+		var mowerId = process.argv[2]; //We only expect one value
   		return mowerId;
 	}
 
