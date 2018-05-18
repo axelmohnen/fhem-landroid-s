@@ -591,6 +591,10 @@ sub LANDROID_RetrieveReadings($){
 	 $t = "mowerWaitRain";
 	 $v = $data_decoded->{'cfg'} && $data_decoded->{'cfg'}{'rd'} ? $data_decoded->{'cfg'}{'rd'} : 0;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 
+	 #Prefill Mower rain delay SET slider (reading must be the same name as SET command)
+	 $t = "changeRainDelay";
+	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	#Mow time extention
 	 $t = "mowTimeExtend";
