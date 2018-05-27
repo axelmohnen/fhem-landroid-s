@@ -235,7 +235,7 @@ sub LANDROID_Set($$$@) {
 	elsif($cmd eq 'resetBladeTimeCounter'){
 # ---------- Handle reset of blade time counter ---------------------------------------------------
 		$hash->{helper}{bladeTimeOffset} = ReadingsVal( $hash->{NAME}, "totalBladeTime", 0 );
-		readingsSingleUpdate ( $hash, "BladeTimeCounter", 0, 1 );
+		readingsSingleUpdate ( $hash, "bladeTimeCounter", 0, 1 );
 		return undef;
 	}
 
