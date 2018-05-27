@@ -518,8 +518,8 @@ sub LANDROID_RetrieveReadings($){
 	 if (!defined $hash->{helper}{bladeTimeOffset})) {
 	 	$hash->{helper}{bladeTimeOffset}) = 0;
 	 }
-	 if (defined $v && defined $hash->{helper}{bladeTimeOffset})) {
-	 	readingsBulkUpdate( $hash, $t, ($v - $hash->{helper}{bladeTimeOffset}) );
+	 if (defined( $v ) && defined( $hash->{helper}{bladeTimeOffset} )) {
+	 	readingsBulkUpdate( $hash, $t, ($v - $hash->{helper}{bladeTimeOffset}));
 	 }
 	 
 	# Battery Status
