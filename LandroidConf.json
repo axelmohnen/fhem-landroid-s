@@ -1,4 +1,32 @@
 {
-	"email": "max.mustermann@gmx.de",
-	"pwd": "PASSWORD"
+	"mower1": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"dev_sel": 0,
+			"port": 8001
+	},
+	"mower2": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"dev_sel": 1,
+			"port": 8002
+	},
+	"mower3": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"dev_sel": 2,
+			"port": 8003
+	},
+	"mower4": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"dev_sel": 3,
+			"port": 8004
+	},
+	"mower5": {
+			"email": "max.mustermann@gmx.de",
+			"pwd": "PASSWORD",
+			"dev_sel": 4,
+			"port": 8005
+	}
 }

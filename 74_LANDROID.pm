@@ -17,14 +17,14 @@
 #  This script is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
+#  GNU General Public License for more details. 
 #
 #
 # $Id$
 #
 # -------------------------------------------------------------------------------------------------
 #  74_LANDROID.pm
-#  v1.1
+#  v1.3 
 # -------------------------------------------------------------------------------------------------
 
 package main;
@@ -50,6 +50,7 @@ sub LANDROID_Initialize($) {
     
     $hash->{AttrList} 		= 	"disable:1,0 " .
 							"interval " .
+							"port " .
 							$readingFnAttributes;
 }
 
@@ -71,6 +72,7 @@ sub LANDROID_Define($$) {
     $hash->{INTERVAL} 	= $interval;
     $hash->{helper}{requestErrorCounter} = 0;
     $hash->{helper}{setErrorCounter} = 0;
+    $hash->{helper}{bladeTimeOffset} = 0;
 
 	Log3 $name, 3, "LANDROID ($name) - defined with host $hash->{HOST} on port $hash->{PORT} and interval $hash->{INTERVAL} (sec)";
 	
@@ -108,19 +110,19 @@ sub LANDROID_Attr(@) {
 		if( $cmd eq "set" ) {
 			if( $attrVal eq "0" ) {
 				RemoveInternalTimer( $hash );
-				InternalTimer( gettimeofday()+2, "LANDROID_Get_stateRequest", $hash) if( ReadingsVal( $hash->{NAME}, "state", 0 ) eq "disabled" );
+				InternalTimer(gettimeofday()+2, "LANDROID_Get_stateRequest", $hash);
 				readingsSingleUpdate ( $hash, "state", "active", 1 );
 				Log3 $name, 3, "LANDROID ($name) - enabled";
 			} 
 			else {
-				readingsSingleUpdate ( $hash, "state", "disabled", 1 );
 				RemoveInternalTimer( $hash );
+				readingsSingleUpdate ( $hash, "state", "disabled", 1 );	
 				Log3 $name, 3, "LANDROID ($name) - disabled";
 			}
 		}
 		elsif( $cmd eq "del" ) {
 			RemoveInternalTimer( $hash );
-			InternalTimer( gettimeofday()+2, "LANDROID_Get_stateRequest", $hash) if( ReadingsVal( $hash->{NAME}, "state", 0 ) eq "disabled" );
+			InternalTimer(gettimeofday()+2, "LANDROID_Get_stateRequest", $hash);
 			readingsSingleUpdate ( $hash, "state", "active", 1 );
 			Log3 $name, 3, "LANDROID ($name) - enabled";
 		} 
@@ -137,9 +139,9 @@ sub LANDROID_Attr(@) {
 # ---------- Set Attribute "interval" --------------------------------------------------------------	
     if( $attrName eq "interval" ) {
 		if( $cmd eq "set" ) {
-			if( $attrVal < 60 ) {
-				Log3 $name, 3, "LANDROID ($name) - interval too small, please use something > 60 (sec), default is 180 (sec)";
-				return "interval too small, please use something > 60 (sec), default is 180 (sec)";
+			if( $attrVal < 10 ) {
+				Log3 $name, 3, "LANDROID ($name) - interval too small, please use something > 10 (sec), default is 180 (sec)";
+				return "interval too small, please use something > 10 (sec), default is 180 (sec)";
 			} 
 			else {
 				$hash->{INTERVAL} = $attrVal;
@@ -158,6 +160,18 @@ sub LANDROID_Attr(@) {
 			elsif( $cmd eq "del" ) {
 			}
 		}
+    }
+
+# ---------- Set Attribute "port" --------------------------------------------------------------	
+    if( $attrName eq "port" ) {
+		if( $cmd eq "set" ) {
+			$hash->{PORT} = $attrVal;
+			Log3 $name, 3, "LANDROID ($name) - set port to $attrVal";
+		}
+		elsif( $cmd eq "del" ) {
+			$hash->{PORT} = 8001;
+			Log3 $name, 3, "LANDROID ($name) - set port to default";
+		} 
     }
     
     return undef;
@@ -178,6 +192,7 @@ sub LANDROID_Set($$$@) {
 	$list .= "changeCfgArea:textField ";				# [area ID 0-3], [Starting point 0-500]
 	$list .= "startSequences:textField ";				# [start sequence 0-3 up to 10 sequences possible]
 	$list .= "changeRainDelay:slider,0,1,300 ";  		# [minutes 0 to 300]
+	$list .= "resetBladeTimeCounter:noArg ";		#no Value needed
 	
 	if( $cmd eq 'startMower' 			||
 	    $cmd eq 'stopMower' 			||
@@ -216,6 +231,12 @@ sub LANDROID_Set($$$@) {
 		
 # ---------- Fire Landoid command -----------------------------------------------------------------	
 	    return LANDROID_FireSetCmd( $hash, $cmd, $val );
+	}
+	elsif($cmd eq 'resetBladeTimeCounter'){
+# ---------- Handle reset of blade time counter ---------------------------------------------------
+		$hash->{helper}{bladeTimeOffset} = ReadingsVal( $hash->{NAME}, "totalBladeTime", 0 );
+		readingsSingleUpdate ( $hash, "bladeTimeCounter", 0, 1 );
+		return undef;
 	}
 
 	return "Unknown argument $cmd, bearword as argument or wrong parameter(s), choose one of $list";
@@ -442,7 +463,11 @@ sub LANDROID_RetrieveReadings($){
 		 9 => "Trapped",
 		 10 => "Blade blocked",
 		 11 => "Debug",
-		 12 => "Remote control"
+		 12 => "Remote control",
+		 30 => "Going home",
+		 31 => "31 unkown",
+		 32 => "Edge cutting",
+		 33 => "Searching zone"
 	 );
 	
 	 my %errorCodes = (
@@ -488,6 +513,9 @@ sub LANDROID_RetrieveReadings($){
 	 $t = "totalBladeTime";
 	 $v = $data_decoded->{'dat'}{'st'} && $data_decoded->{'dat'}{'st'}{'b'} ? $data_decoded->{'dat'}{'st'}{'b'} : undef;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 
+	 $t = "bladeTimeCounter";
+	 readingsBulkUpdate( $hash, $t, ($v - $hash->{helper}{bladeTimeOffset} ));
 	 
 	# Battery Status
 	 $t = "batteryChargeCycle";
@@ -564,10 +592,18 @@ sub LANDROID_RetrieveReadings($){
 	 $t = "mowerWaitRain";
 	 $v = $data_decoded->{'cfg'} && $data_decoded->{'cfg'}{'rd'} ? $data_decoded->{'cfg'}{'rd'} : 0;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 
+	 #Prefill Mower rain delay SET slider (reading must be the same name as SET command)
+	 $t = "changeRainDelay";
+	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	#Mow time extention
 	 $t = "mowTimeExtend";
 	 $v = $data_decoded->{'cfg'}{'sc'} && $data_decoded->{'cfg'}{'sc'}{'p'} ? $data_decoded->{'cfg'}{'sc'}{'p'} : 0;
+	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
+	 
+	 #Prefill Mow time extend SET slider (reading must be the same name as SET command)
+	 $t = "changeCfgTimeExtend";
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	#Calendar
@@ -635,32 +671,6 @@ sub LANDROID_RetrieveReadings($){
      return;
  }
  
- # ---------- Get Readings from Worx Landroid Amazon Web Service (AWS Cloud Service - MQTT Broker) -
-sub LANDROID_GetReadings($) {
-    my ( $hash ) = @_;
-    my $name = $hash->{NAME};
-    my $host = $hash->{HOST};
-    my $port = $hash->{PORT};
-	
-	my $url = "http://" . $host . ":" . $port . "/getMessage";
-	
-	HttpUtils_NonblockingGet(
-		{
-			url			=> $url,
-			timeout		=> 10,
-			hash		=> $hash,
-			method		=> "GET",
-			header     	=> "agent: TeleHeater/2.2.3\r\nUser-Agent: TeleHeater/2.2.3\r\nAccept: application/json",
-			callback	=> \&LANDROID_RetrieveReadings
-		}
-	);
-	
-	Log3 $name, 4, "LANDROID ($name) - NonblockingGet get URL";
-    Log3 $name, 4, "LANDROID ($name) - LANDROID_RetrieveReadings: calling Host: $host";
-	
-	return undef;
-}
-
 # ---------- Callback function -> retieve data from Amazon MQTT broker ----------------------------
 sub LANDROID_ResponseSetCmd($){
     my ($param, $err, $data) = @_;

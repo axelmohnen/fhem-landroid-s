@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // Landroid Node.js Web Server
-// version 1.2 
+// version 1.3
 // --------------------------------------------------------------------------------------------	
 	"use strict";
 	var http = require('http');
@@ -14,7 +14,14 @@
 	var connected = false;
 	var WSRunning = false;
 	var server;
+	var mowerId;
 	
+	// Get Mower ID
+	function getMoverId(){
+		var mowerId = process.argv[2]; //We only expect one value
+  		return mowerId;
+	}
+
 	// Build Timestamp
 	function getTimestamp() {
 		var date = new Date();
@@ -72,7 +79,7 @@
 					response.end("Invalid path: " + path);
 					console.log(getTimestamp() + " --> Landroid WebServer: Invalid path received: " + path);
 			}
-		}).listen(8001);
+		}).listen(LandroidConf[mowerId].port);
 		console.log(getTimestamp() + " --> Landroid WebServer: server initialized");
 
 	}
@@ -413,6 +420,14 @@
 		}
 	}
 	
+	// Retrieve mover ID
+	mowerId = getMoverId();
+	
+	if (mowerId){
+		// Set adapter configuration 
+		var adapter = { config: LandroidConf[mowerId],
+					log: { info: function(msg) { adapter.msg.info.push(msg);},
+
 	// Set adapter configuration
 	var adapter = { config: LandroidConf.[mowerId],
 				log: { info: function(msg) { adapter.msg.info.push(msg);},
@@ -424,6 +439,14 @@
 					debug: [],
 		       			warn: [] }};
 	
+		// Establishh connection to MQTT Broker
+		main();
+	}
+	else{
+		console.log("Mower ID is missing!");
+
+	}
+
 	// Establishh connection to MQTT Broker
 	main();
 
