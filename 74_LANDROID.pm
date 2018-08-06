@@ -139,9 +139,9 @@ sub LANDROID_Attr(@) {
 # ---------- Set Attribute "interval" --------------------------------------------------------------	
     if( $attrName eq "interval" ) {
 		if( $cmd eq "set" ) {
-			if( $attrVal < 60 ) {
-				Log3 $name, 3, "LANDROID ($name) - interval too small, please use something > 60 (sec), default is 180 (sec)";
-				return "interval too small, please use something > 60 (sec), default is 180 (sec)";
+			if( $attrVal < 10 ) {
+				Log3 $name, 3, "LANDROID ($name) - interval too small, please use something > 10 (sec), default is 180 (sec)";
+				return "interval too small, please use something > 10 (sec), default is 180 (sec)";
 			} 
 			else {
 				$hash->{INTERVAL} = $attrVal;
