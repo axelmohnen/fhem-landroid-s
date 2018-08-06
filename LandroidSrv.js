@@ -427,13 +427,17 @@
 		// Set adapter configuration 
 		var adapter = { config: LandroidConf[mowerId],
 					log: { info: function(msg) { adapter.msg.info.push(msg);},
+
+	// Set adapter configuration
+	var adapter = { config: LandroidConf.[mowerId],
+				log: { info: function(msg) { adapter.msg.info.push(msg);},
 					       error: function(msg) { adapter.msg.error.push(msg);},
 					       debug: function(msg) { adapter.msg.debug.push(msg);},
 					       warn: function(msg) { adapter.msg.warn.push(msg);}},
-					msg: { info: [],
-						   error: [],
-						   debug: [],
-		       				warn: [] }};
+				msg: { 	info: [],
+					error: [],
+					debug: [],
+		       			warn: [] }};
 	
 		// Establishh connection to MQTT Broker
 		main();
@@ -442,3 +446,7 @@
 		console.log("Mower ID is missing!");
 
 	}
+
+	// Establishh connection to MQTT Broker
+	main();
+
