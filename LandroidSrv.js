@@ -442,7 +442,3 @@
 		console.log("Mower ID is missing!");
 
 	}
-
-	// Establishh connection to MQTT Broker
-	main();
-
