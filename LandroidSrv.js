@@ -425,7 +425,7 @@
 	
 	if (mowerId){
 	// Set adapter configuration
-	var adapter = { config: LandroidConf.[mowerId],
+	var adapter = { config: LandroidConf[mowerId],
 				log: { 	info: function(msg) { adapter.msg.info.push(msg);},
 					error: function(msg) { adapter.msg.error.push(msg);},
 					debug: function(msg) { adapter.msg.debug.push(msg);},
