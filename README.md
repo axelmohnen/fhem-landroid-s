@@ -13,6 +13,7 @@ Worx Landroid-S Module for FHEM SmartHome
 			Counter for totalBladeTime with reset function
 			New mower status support
 			Set sliders for MowTimeExtent and MowRainDelay values prefilled (FHEMWEB)
+- 1.4 (21.08.18):	Pause function
 ```
 Installation Guide on Raspberry PI (Debian)
 
