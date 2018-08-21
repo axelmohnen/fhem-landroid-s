@@ -467,7 +467,7 @@ sub LANDROID_RetrieveReadings($){
 		 11 => "Debug",
 		 12 => "Remote control",
 		 30 => "Going home",
-		 31 => "31 unkown",
+		 31 => "Zone Training",
 		 32 => "Edge cutting",
 		 33 => "Searching zone"
 	 );
