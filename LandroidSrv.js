@@ -143,6 +143,9 @@
 			case 7:
 				cmdStatus = changeRainDelay(value);
 				break;
+			case 8:
+				cmdStatus = pauseMower();
+				break;
 		}
 		
 		// Check result
