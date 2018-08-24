@@ -183,10 +183,13 @@ Installation Guide on Raspberry PI (Debian)
 			- Starting Point in meters 0 - 500
   ```
   
-  - startSequences: Start sequence (up to 10 sequences possible)
+  - startSequences: Defines the sequence of area which the mower will enter and
+  		    the percentage how long the mower will run in each area.
+  		    Each digit of the sequence means 10% of the daily time frame.
   ```
-  	Example: 0,0,0,0,0,0,0,0,0,0
-			- Sequence ID 0-3 (? -> Please let me know if you know it!)
+  	Example: 0,0,0,0,0,0,0,0,0,0 = 100% area 1
+	Example: 0,0,0,0,0,1,1,1,1,1 = 50% area 1 / 50% area 2
+	Example: 0,0,1,1,2,2,2,3,3,3 = 20% area 1 / 20% area 2 / 30% area 3 / 30% area 4
   ```
   
   - changeRainDelay: Set Rain delay in minutes (value between 0 and 300)
