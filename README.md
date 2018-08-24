@@ -165,6 +165,8 @@ Installation Guide on Raspberry PI (Debian)
   
   - stopMower: Going back to docking station (no parameter needed)
   
+  - pauseMower: Pause Mower (no parameter needed)
+  
   - changeCfgCalendar: Set calendar per weekday
   ```
     	Example: 0,10:00,300,1
