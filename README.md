@@ -188,7 +188,7 @@ Installation Guide on Raspberry PI (Debian)
   		    Each digit of the sequence means 10% of the daily time frame.
   ```
   	Example: 0,0,0,0,0,0,0,0,0,0 = 100% area 1
-	Example: 0,0,0,0,0,1,1,1,1,1 = 50% area 1 / 50% area 2
+		Example: 0,0,0,0,0,1,1,1,1,1 = 50% area 1 / 50% area 2
 	Example: 0,0,1,1,2,2,2,3,3,3 = 20% area 1 / 20% area 2 / 30% area 3 / 30% area 4
   ```
   
