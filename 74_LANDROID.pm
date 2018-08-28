@@ -469,7 +469,8 @@ sub LANDROID_RetrieveReadings($){
 		 30 => "Going home",
 		 31 => "Zone Training",
 		 32 => "Edge cutting",
-		 33 => "Searching zone"
+		 33 => "Searching zone",
+		 34 => "Pause"
 	 );
 	
 	 my %errorCodes = (
