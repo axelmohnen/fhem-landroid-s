@@ -168,7 +168,7 @@
 		var state = (data.dat && data.dat.ls ? data.dat.ls : 0);
 		var error = (data.dat && data.dat.le ? data.dat.le : 0);
 
-		if (state === 1 && error == 0) {
+		if ((state === 1 || state === 34) && error == 0) {
 			// Fire MQTT Message
 			landroid.sendMessage('{"cmd":1}'); //start code for mower
 			
