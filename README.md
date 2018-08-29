@@ -201,4 +201,48 @@ Installation Guide on Raspberry PI (Debian)
   - changeRainDelay: Set Rain delay in minutes (value between 0 and 300)
   - resetBladeTimeCounter: Resets the READING "bladeTimeCounter"
   
+ ## 6. Appendix
+ 
+  - Status codes
+  ```
+  	0 => "Idle",
+       	1 => "Home",
+       	2 => "Start sequence",
+       	3 => "Leaving home",
+       	4 => "Follow wire",
+       	5 => "Searching home",
+       	6 => "Searching wire",
+       	7 => "Mowing",
+       	8 => "Lifted",
+       	9 => "Trapped",
+       	10 => "Blade blocked",
+       	11 => "Debug",
+       	12 => "Remote control",
+       	30 => "Going home",
+       	31 => "Zone Training",
+       	32 => "Edge cutting",
+       	33 => "Searching zone",
+       	34 => "Pause"
+  ```
+  
+  - Error codes
+  ```
+  	0 => "No error",
+       	1 => "Trapped",
+       	2 => "Lifted",
+       	3 => "Wire missing",
+       	4 => "Outside wire",
+       	5 => "Raining",
+       	6 => "Close door to mow",
+       	7 => "Close door to go home",
+       	8 => "Blade motor blocked",
+       	9 => "Wheel motor blocked",
+       	10 => "Trapped timeout",
+       	11 => "Upside down",
+       	12 => "Battery low",
+       	13 => "Reverse wire",
+       	14 => "Charge error",
+       	15 => "Timeout finding home"
+  ```
+  
 
