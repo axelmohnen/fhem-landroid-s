@@ -159,6 +159,10 @@ Installation Guide on Raspberry PI (Debian)
   - Restart PI
   
     $ sudo shutdown -r now
+  
+  - Use the following command after update of file LandroidSrv.js (e.g. newer version)
+  
+    $ pm2 restart /opt/landroid/fhem-landroid-s/LandroidSrv.js -f -- mower1
  
  ## 5. Set commands
   - startMower: Start Mower (no parameter needed)
