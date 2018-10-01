@@ -14,6 +14,7 @@ Worx Landroid-S Module for FHEM SmartHome
 			New mower status support
 			Set sliders for MowTimeExtent and MowRainDelay values prefilled (FHEMWEB)
 - 1.4 (21.08.18):	Pause function
+- 1.5 (01.10.18):	Landroid M support
 ```
 Installation Guide on Raspberry PI (Debian)
 
