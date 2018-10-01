@@ -6,7 +6,7 @@
 	var http = require('http');
 	var url = require('url');
 	var fs = require('fs');
-	var LandroidCloud = require('./node_modules/iobroker.landroid-s/lib/landroid-cloud-2');
+	var LandroidCloud = require('./node_modules/iobroker.landroid-s/lib/mqttCloud');
 	var LandroidConf = require('./LandroidConf.json');
 	var landroid;
 	var data;
@@ -417,7 +417,7 @@
 	
 	function main() {
 		// Create landroid handler 
-		landroid = new LandroidCloud(adapter);
+		landroid = new mqttCloud(adapter);
 	
 		// Check password
 		if (adapter.config.pwd === "PASSWORD") {
