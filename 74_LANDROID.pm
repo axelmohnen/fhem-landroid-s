@@ -24,7 +24,7 @@
 #
 # -------------------------------------------------------------------------------------------------
 #  74_LANDROID.pm
-#  v1.3 
+#  v1.4
 # -------------------------------------------------------------------------------------------------
 
 package main;
@@ -187,6 +187,7 @@ sub LANDROID_Set($$$@) {
     my $list = "";
 	$list .= "startMower:noArg "; 						# no Value needed
 	$list .= "stopMower:noArg ";						# no Value needed
+	$list .= "pauseMower:noArg ";						# no Value needed
 	$list .= "changeCfgCalendar:textField "; 			# [weekday 0-6],[starttime e.g 10:00],[worktime in min.],[bordercut 0 or 1]
 	$list .= "changeCfgTimeExtend:slider,-100,1,100 ";  # [percentage value -100 to 100]
 	$list .= "changeCfgArea:textField ";				# [area ID 0-3], [Starting point 0-500]
@@ -196,6 +197,7 @@ sub LANDROID_Set($$$@) {
 	
 	if( $cmd eq 'startMower' 			||
 	    $cmd eq 'stopMower' 			||
+	    $cmd eq 'pauseMower' 			||
 	    $cmd eq 'changeCfgCalendar' 	||
 	    $cmd eq 'changeCfgTimeExtend' 	||
 	    $cmd eq 'changeCfgArea' 		||
@@ -465,9 +467,10 @@ sub LANDROID_RetrieveReadings($){
 		 11 => "Debug",
 		 12 => "Remote control",
 		 30 => "Going home",
-		 31 => "31 unkown",
+		 31 => "Zone Training",
 		 32 => "Edge cutting",
-		 33 => "Searching zone"
+		 33 => "Searching zone",
+		 34 => "Pause"
 	 );
 	
 	 my %errorCodes = (

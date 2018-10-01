@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // Landroid Node.js Web Server
-// version 1.3
+// version 1.4
 // --------------------------------------------------------------------------------------------	
 	"use strict";
 	var http = require('http');
@@ -53,7 +53,7 @@
 				case "/stopMower":
 					fireCmd(2,query.value,response);
 					break;
-				
+							
 				case "/changeCfgCalendar":
 					fireCmd(3,query.value,response);
 					break;
@@ -72,6 +72,10 @@
 				
 				case "/changeRainDelay":
 					fireCmd(7,query.value,response);
+					break;
+					
+				case "/pauseMower":
+					fireCmd(8,query.value,response);
 					break;
 				
 				default:
@@ -139,6 +143,9 @@
 			case 7:
 				cmdStatus = changeRainDelay(value);
 				break;
+			case 8:
+				cmdStatus = pauseMower();
+				break;
 		}
 		
 		// Check result
@@ -161,7 +168,7 @@
 		var state = (data.dat && data.dat.ls ? data.dat.ls : 0);
 		var error = (data.dat && data.dat.le ? data.dat.le : 0);
 
-		if (state === 1 && error == 0) {
+		if ((state === 1 || state === 34) && error == 0) {
 			// Fire MQTT Message
 			landroid.sendMessage('{"cmd":1}'); //start code for mower
 			
@@ -198,6 +205,18 @@
 			cmdStatus.msg = "Can not stop mover, because he is not mowing or he has an issue, please take a look at the mover";
 			return cmdStatus
 		}
+	}
+
+	function pauseMower() {
+		var cmdStatus = { cmdState: false, msg: "" };
+
+		// Fire MQTT Message
+		landroid.sendMessage('{"cmd":2}'); //pause code for mower
+			
+		// Set return status
+		cmdStatus.cmdState = true;
+		cmdStatus.msg = "Mower has been paused";
+		return cmdStatus;
 	}
 
 	function changeCfgCalendar(value) {

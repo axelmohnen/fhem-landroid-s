@@ -13,6 +13,7 @@ Worx Landroid-S Module for FHEM SmartHome
 			Counter for totalBladeTime with reset function
 			New mower status support
 			Set sliders for MowTimeExtent and MowRainDelay values prefilled (FHEMWEB)
+- 1.4 (21.08.18):	Pause function
 ```
 Installation Guide on Raspberry PI (Debian)
 
@@ -158,11 +159,17 @@ Installation Guide on Raspberry PI (Debian)
   - Restart PI
   
     $ sudo shutdown -r now
+  
+  - Use the following command after update of file LandroidSrv.js (e.g. newer version)
+  
+    $ pm2 restart /opt/landroid/fhem-landroid-s/LandroidSrv.js -f -- mower1
  
  ## 5. Set commands
   - startMower: Start Mower (no parameter needed)
   
   - stopMower: Going back to docking station (no parameter needed)
+  
+  - pauseMower: Pause Mower (no parameter needed)
   
   - changeCfgCalendar: Set calendar per weekday
   ```
@@ -182,13 +189,60 @@ Installation Guide on Raspberry PI (Debian)
 			- Starting Point in meters 0 - 500
   ```
   
-  - startSequences: Start sequence (up to 10 sequences possible)
+  - startSequences: Defines the sequence of area which the mower will enter and
+  		    the percentage how long the mower will run in each area.
+  		    Each digit of the sequence means 10% of the daily time frame.
   ```
-  	Example: 0,0,0,0,0,0,0,0,0,0
-			- Sequence ID 0-3 (? -> Please let me know if you know it!)
+  	Example: 0,0,0,0,0,0,0,0,0,0 = 100% area 1
+		Example: 0,0,0,0,0,1,1,1,1,1 = 50% area 1 / 50% area 2
+		Example: 0,0,1,1,2,2,2,3,3,3 = 20% area 1 / 20% area 2 / 30% area 3 / 30% area 4
   ```
   
   - changeRainDelay: Set Rain delay in minutes (value between 0 and 300)
   - resetBladeTimeCounter: Resets the READING "bladeTimeCounter"
+  
+ ## 6. Appendix
+ 
+  - Status codes
+  ```
+  	0 => "Idle",
+       	1 => "Home",
+       	2 => "Start sequence",
+       	3 => "Leaving home",
+       	4 => "Follow wire",
+       	5 => "Searching home",
+       	6 => "Searching wire",
+       	7 => "Mowing",
+       	8 => "Lifted",
+       	9 => "Trapped",
+       	10 => "Blade blocked",
+       	11 => "Debug",
+       	12 => "Remote control",
+       	30 => "Going home",
+       	31 => "Zone Training",
+       	32 => "Edge cutting",
+       	33 => "Searching zone",
+       	34 => "Pause"
+  ```
+  
+  - Error codes
+  ```
+  	0 => "No error",
+       	1 => "Trapped",
+       	2 => "Lifted",
+       	3 => "Wire missing",
+       	4 => "Outside wire",
+       	5 => "Raining",
+       	6 => "Close door to mow",
+       	7 => "Close door to go home",
+       	8 => "Blade motor blocked",
+       	9 => "Wheel motor blocked",
+       	10 => "Trapped timeout",
+       	11 => "Upside down",
+       	12 => "Battery low",
+       	13 => "Reverse wire",
+       	14 => "Charge error",
+       	15 => "Timeout finding home"
+  ```
   
 
