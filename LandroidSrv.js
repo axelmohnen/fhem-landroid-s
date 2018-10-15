@@ -417,7 +417,7 @@
 	
 	function main() {
 		// Create landroid handler 
-		landroid = new mqttCloud(adapter);
+		landroid = new LandroidCloud(adapter);
 	
 		// Check password
 		if (adapter.config.pwd === "PASSWORD") {
