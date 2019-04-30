@@ -72,7 +72,8 @@ sub LANDROID_Define($$) {
     $hash->{INTERVAL} 	= $interval;
     $hash->{helper}{requestErrorCounter} = 0;
     $hash->{helper}{setErrorCounter} = 0;
-    $hash->{helper}{bladeTimeOffset} = 0;
+    # ---------- Init persistent readings value ---------------------------------------------------
+    readingsSingleUpdate ( $hash, ".bladeTimeOffset", 0, 1 );
 
 	Log3 $name, 3, "LANDROID ($name) - defined with host $hash->{HOST} on port $hash->{PORT} and interval $hash->{INTERVAL} (sec)";
 	
@@ -236,7 +237,8 @@ sub LANDROID_Set($$$@) {
 	}
 	elsif($cmd eq 'resetBladeTimeCounter'){
 # ---------- Handle reset of blade time counter ---------------------------------------------------
-		$hash->{helper}{bladeTimeOffset} = ReadingsVal( $hash->{NAME}, "totalBladeTime", 0 );
+		my $totalBladeTime = ReadingsVal( $hash->{NAME}, "totalBladeTime", 0 );
+		readingsSingleUpdate ( $hash, ".bladeTimeOffset", $totalBladeTime, 1 );
 		readingsSingleUpdate ( $hash, "bladeTimeCounter", 0, 1 );
 		return undef;
 	}
@@ -500,6 +502,7 @@ sub LANDROID_RetrieveReadings($){
 	 my @calendar;
 	 my @area;
 	 my @areaAct;
+	 my $bladeTimeOffset;
 	
 	 readingsBeginUpdate( $hash );
 
@@ -518,7 +521,8 @@ sub LANDROID_RetrieveReadings($){
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	 
 	 $t = "bladeTimeCounter";
-	 readingsBulkUpdate( $hash, $t, ($v - $hash->{helper}{bladeTimeOffset} ));
+	 $bladeTimeOffset = ReadingsVal( $hash->{NAME}, ".bladeTimeOffset", 0 );
+	 readingsBulkUpdate( $hash, $t, ($v - $bladeTimeOffset ));
 	 
 	# Battery Status
 	 $t = "batteryChargeCycle";
