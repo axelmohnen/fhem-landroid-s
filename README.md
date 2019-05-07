@@ -34,6 +34,10 @@ Installation Guide on Raspberry PI (Debian)
 
 ## 2. Install FHEM Landroid-S Adapter
   
+  - requirement if not already done
+  
+    $ sudo apt-get install git 
+    
   - Switch to directory
   
     $ cd /opt
@@ -131,7 +135,7 @@ Installation Guide on Raspberry PI (Debian)
 
   - Install Process manager
   
-    $ npm install pm2 -g
+    $ sudo npm install pm2 -g
   
   - Start your landroid server in background
   
