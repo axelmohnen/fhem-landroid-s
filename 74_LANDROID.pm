@@ -491,8 +491,8 @@ sub LANDROID_RetrieveReadings($){
 		 12 => "Battery low",
 		 13 => "Reverse wire",
 		 14 => "Charge error",
-		 15 => "Timeout finding home"
-		 16 => "Mower locked"
+		 15 => "Timeout finding home",
+		 16 => "Mower locked",
 		 17 => "Battery temp out of range"
 	 );
 
