@@ -17,6 +17,7 @@ Worx Landroid-S Module for FHEM SmartHome
 - 1.5 (01.10.18):	Landroid M support
 - 1.6 (30.04.19):	New error code 16 (Mower locked) and 17 (Battery temp out of range)
 			New peristant variable for bladeTimeOffset
+			Trigger stopMower while Pause
 ```
 Installation Guide on Raspberry PI (Debian)
 
