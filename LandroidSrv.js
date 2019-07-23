@@ -1,20 +1,22 @@
 // --------------------------------------------------------------------------------------------
 // Landroid Node.js Web Server
-// version 1.6
+// version 1.7
 // --------------------------------------------------------------------------------------------	
 	"use strict";
 	var http = require('http');
 	var url = require('url');
 	var fs = require('fs');
-	var LandroidCloud = require('./node_modules/iobroker.landroid-s/lib/mqttCloud');
+	const worx = require('./node_modules/ioBroker.worx/lib/api');
 	var LandroidConf = require('./LandroidConf.json');
-	var landroid;
+	var config;
+	var worxCloud;
 	var data;
 	var pingTimeout = null;
 	var connected = false;
 	var WSRunning = false;
 	var server;
 	var mowerId;
+	var edgeCutting = false;
 	
 	// Get Mower ID
 	function getMoverId(){
@@ -78,6 +80,10 @@
 					fireCmd(8,query.value,response);
 					break;
 				
+				case "/edgeCutting":
+					fireCmd(9,query.value,response);
+					break;
+				
 				default:
 					response.writeHead(500, {"Content-Type": "text/plain"});
 					response.end("Invalid path: " + path);
@@ -87,34 +93,6 @@
 		console.log(getTimestamp() + " --> Landroid WebServer: server initialized");
 
 	}
-	
-	//Autoupdate Push
-	var updateListener = function (status) {
-		if (status) { // We got some data from the Landroid
-			clearTimeout(pingTimeout);
-			pingTimeout = null;
-			
-			// Check AWS connection
-			if (!connected) {
-				connected = true;
-				console.log(getTimestamp() + " --> Connected to mower");
-				// Start Landroid web server
-				startWebServer();
-			}
-			data = status; // Set new Data to var data
-			
-			// Check Landroid WebServer connection
-			if (!WSRunning){
-				if (server.address() !== null){
-					WSRunning = true;
-					console.log(getTimestamp() + " --> Landroid WebServer: server running");
-				}
-			}
-  
-		} else {
-			console.log(getTimestamp() + " --> Error getting update!");
-		}
-	};
 
 	function fireCmd(cmdCode, value, response){
 		var cmdStatus;
@@ -146,6 +124,9 @@
 			case 8:
 				cmdStatus = pauseMower();
 				break;
+			case 9:
+				cmdStatus = edgeCutting();
+				break;
 		}
 		
 		// Check result
@@ -170,7 +151,7 @@
 
 		if ((state === 1 || state === 34) && error == 0) {
 			// Fire MQTT Message
-			landroid.sendMessage('{"cmd":1}'); //start code for mower
+			worxCloud.mower.sendMessage('{"cmd":1}'); //start code for mower
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -191,7 +172,7 @@
 		var error = (data.dat && data.dat.le ? data.dat.le : 0);
 		if ((state === 7 || state === 34) && error == 0) {
 			// Fire MQTT Message
-			landroid.sendMessage('{"cmd":3}'); //"Back to home" code for mower
+			worxCloud.mower.sendMessage('{"cmd":3}'); //"Back to home" code for mower
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -211,11 +192,30 @@
 		var cmdStatus = { cmdState: false, msg: "" };
 
 		// Fire MQTT Message
-		landroid.sendMessage('{"cmd":2}'); //pause code for mower
+		worxCloud.mower.sendMessage('{"cmd":2}'); //pause code for mower
 			
 		// Set return status
 		cmdStatus.cmdState = true;
 		cmdStatus.msg = "Mower has been paused";
+		return cmdStatus;
+	}
+	
+	function edgeCutting() {
+		var cmdStatus = { cmdState: false, msg: "" };
+		//Edge cutting for mower
+		//--> Start zone training (cmd:4)
+		//--> wait 3 sec
+		//--> Pause Mower (cmd:2)
+		//--> wait 3 sec
+		//--> Stop Mower (cmd:3)
+		
+		// Fire MQTT Message
+		worxCloud.mower.sendMessage('{"cmd":4}'); //Start zone training
+		edgeCutting = true.
+				
+		// Set return status
+		cmdStatus.cmdState = true;
+		cmdStatus.msg = "Edge cutting has been triggered";
 		return cmdStatus;
 	}
 
@@ -285,7 +285,7 @@
 		message[dayId][2] = borderCut;
 			
 		// Fire MQTT Message
-		landroid.sendMessage('{"sc":{"d":' + JSON.stringify(message) + '}}');
+		worxCloud.mower.sendMessage('{"sc":{"d":' + JSON.stringify(message) + '}}');
 			
 		// Set return status
 		cmdStatus.cmdState = true;
@@ -302,7 +302,7 @@
 		if (!isNaN(val) && val >= -100 && val <= 100) {
 			message.p = val;
 			// Fire MQTT Message
-			landroid.sendMessage('{"sc":' + JSON.stringify(message) + '}');
+			worxCloud.mower.sendMessage('{"sc":' + JSON.stringify(message) + '}');
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -328,7 +328,7 @@
 			if (!isNaN(val[1]) && val[1] >= 0 && val[1] <= 500) {
 				message[areaID] = val[1];
 				// Fire MQTT Message
-				landroid.sendMessage('{"mz":' + JSON.stringify(message) + '}');
+				worxCloud.mower.sendMessage('{"mz":' + JSON.stringify(message) + '}');
 
 				// Set return status
 				cmdStatus.cmdState = true;
@@ -375,7 +375,7 @@
 				}
 			}
 			// Fire MQTT Message
-			landroid.sendMessage('{"mzv":' + JSON.stringify(seq) + '}');
+			worxCloud.mower.sendMessage('{"mzv":' + JSON.stringify(seq) + '}');
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -400,7 +400,7 @@
 		if (!isNaN(val) && val >= 0 && val <= 300) {
 			message = val;
 			// Fire MQTT Message
-			landroid.sendMessage('{"rd":' + JSON.stringify(message) + '}');
+			worxCloud.mower.sendMessage('{"rd":' + JSON.stringify(message) + '}');
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -415,45 +415,79 @@
 		}
 	}
 	
-	function main() {
-		// Create landroid handler 
-		landroid = new LandroidCloud(adapter);
+	function edgeCuttingHandler() {
+		//Check for edge cutting mode
+		if(!edgeCutting){
+			return;
+		}
+		
+		//Get actual mower state
+		var state = (data.dat && data.dat.ls ? data.dat.ls : 0);
+		
+        if (state === 31) {
+            setTimeout(function(){
+                worxCloud.mower.sendMessage('{"cmd":2}'); //Pause Mower
+            }, 3000);
+ 
+        } else if (state === 34) {
+			setTimeout(function(){
+                worxCloud.mower.sendMessage('{"cmd":3}'); //Stop Mower (go home)
+				edgeCutting = false;
+            }, 3000);
+            
+        } else if (state !== 31 && state !== 34) {
+            edgeCutting = false;
+			console.log(getTimestamp() + " --> " + "Something went wrong at edgeCutting");
+        }
+	}
 	
-		// Check password
-		if (adapter.config.pwd === "PASSWORD") {
-			console.log(getTimestamp() + " --> Please enter username and password");
-		}
-		else {
+	function main() {
 		
-			// Set debug log
-			adapter.log.debug(getTimestamp() + " --> mail address: " + adapter.config.email);
-			adapter.log.debug(getTimestamp() + " --> password were set to: " + adapter.config.pwd);
-		
-			// Start-up Landroid AWS MQTT Broker connection 
-			landroid.init(updateListener);
-		
-			// Uncomment in case you need further process information
-			//console.log(getTimestamp() + " --> " + adapter.log.info);
-			//console.log(getTimestamp() + " --> " + adapter.log.error);
-			//console.log(getTimestamp() + " --> " + adapter.log.debug);
-		}
+		worxCloud = new worx(config.email, config.pwd);
+
+        worxCloud.on('connect', worxc => {
+            console.log(getTimestamp() + " --> " + "sucessfully connected!");
+			// Start Landroid web server
+			startWebServer();
+        });
+
+        worxCloud.on('found', function (mower) {
+
+            console.log(getTimestamp() + " --> " + 'found!' + JSON.stringify(mower));
+            
+            mower.connectMqtt().then(mower_data => {
+				console.log(getTimestamp() + " --> MQTT connected" + mower_data);
+            });
+
+            mower.on('mqtt', (mower, mower_data) => {
+				//Get data
+                data = mower_data );
+				
+				//Run edge cutting handler
+				edgeCuttingHandler();
+				
+				if (!WSRunning){
+					if (server.address() !== null){
+						WSRunning = true;
+						console.log(getTimestamp() + " --> Landroid WebServer: server running");
+					}
+				}
+            });
+
+        });
+
+        worxCloud.on('error', err => {
+            console.log(getTimestamp() + " --> 'ERROR: " + err);
+        });
 	}
 	
 	// Retrieve mover ID
 	mowerId = getMoverId();
 	
 	if (mowerId){
-	// Set adapter configuration
-	var adapter = { config: LandroidConf[mowerId],
-				log: { 	info: function(msg) { adapter.msg.info.push(msg);},
-					error: function(msg) { adapter.msg.error.push(msg);},
-					debug: function(msg) { adapter.msg.debug.push(msg);},
-					warn: function(msg) { adapter.msg.warn.push(msg);}},
-				msg: { 	info: [],
-					error: [],
-					debug: [],
-		       			warn: [] }};
-	
+		//Get landroid config
+		config = LandroidConf[mowerId];
+		
 		// Establishh connection to MQTT Broker
 		main();
 	}
