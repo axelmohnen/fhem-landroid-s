@@ -1,5 +1,5 @@
 # fhem-landroid-s
-Worx Landroid-S Module for FHEM SmartHome
+Worx Landroid-S Module for FHEM SmartHome. Compatible with Worx Landroid S/M/L Models
 
 ![Logo](images/Fhem_Landroid_Adapter.jpg)
 
