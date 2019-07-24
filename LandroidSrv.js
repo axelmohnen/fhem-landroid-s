@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // Landroid Node.js Web Server
-// version 1.5
+// version 1.6
 // --------------------------------------------------------------------------------------------	
 	"use strict";
 	var http = require('http');
@@ -189,7 +189,7 @@
 		var cmdStatus = { cmdState: false, msg: "" };
 		var state = (data.dat && data.dat.ls ? data.dat.ls : 0);
 		var error = (data.dat && data.dat.le ? data.dat.le : 0);
-		if (state === 7 && error == 0) {
+		if ((state === 7 || state === 34) && error == 0) {
 			// Fire MQTT Message
 			landroid.sendMessage('{"cmd":3}'); //"Back to home" code for mower
 			

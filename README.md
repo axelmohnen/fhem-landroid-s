@@ -15,6 +15,9 @@ Worx Landroid-S Module for FHEM SmartHome
 			Set sliders for MowTimeExtent and MowRainDelay values prefilled (FHEMWEB)
 - 1.4 (21.08.18):	Pause function
 - 1.5 (01.10.18):	Landroid M support
+- 1.6 (30.04.19):	New error code 16 (Mower locked) and 17 (Battery temp out of range)
+			New peristant variable for bladeTimeOffset
+			Trigger stopMower while Pause
 ```
 Installation Guide on Raspberry PI (Debian)
 
