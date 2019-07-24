@@ -18,6 +18,8 @@ Worx Landroid-S Module for FHEM SmartHome
 - 1.6 (30.04.19):	New error code 16 (Mower locked) and 17 (Battery temp out of range)
 			New peristant variable for bladeTimeOffset
 			Trigger stopMower while Pause
+- 1.7 (24.07.19):	Compatible with ioBroker.worx from MeisterTR
+			edgeCutting
 ```
 Installation Guide on Raspberry PI (Debian)
 
@@ -63,9 +65,9 @@ Installation Guide on Raspberry PI (Debian)
 
     $ cd fhem-landroid-s
     
-  - Install ioBroker Landroid adapter
+  - Install ioBroker worx adapter
   
-    $ sudo npm install iobroker.landroid-s
+    $ sudo npm install iobroker.worx
     
   - Copy Landroid perl module to FHEM
     
@@ -204,6 +206,7 @@ Installation Guide on Raspberry PI (Debian)
   
   - changeRainDelay: Set Rain delay in minutes (value between 0 and 300)
   - resetBladeTimeCounter: Resets the READING "bladeTimeCounter"
+  - edgeCutting: Start edge cutting (no parameter needed)
   
  ## 6. Appendix
  
@@ -247,6 +250,8 @@ Installation Guide on Raspberry PI (Debian)
        	13 => "Reverse wire",
        	14 => "Charge error",
        	15 => "Timeout finding home"
+	16 => "Mower locked"
+    	17 => "Battery over temperature"
   ```
   
 
