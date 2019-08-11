@@ -6,7 +6,7 @@
 	var http = require('http');
 	var url = require('url');
 	var fs = require('fs');
-	const worx = require('./node_modules/ioBroker.worx/lib/api');
+	const worx = require('./node_modules/iobroker.worx/lib/api');
 	var LandroidConf = require('./LandroidConf.json');
 	var config;
 	var worxCloud;
@@ -461,7 +461,7 @@
 
             mower.on('mqtt', (mower, mower_data) => {
 				//Get data
-                data = mower_data );
+                data = mower_data;
 				
 				//Run edge cutting handler
 				edgeCuttingHandler();
