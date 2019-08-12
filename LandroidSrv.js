@@ -452,15 +452,12 @@
         });
 
         worxCloud.on('found', function (mower) {
-
             console.log(getTimestamp() + " --> " + 'found!' + JSON.stringify(mower));
-            
-            mower.connectMqtt().then(mower_data => {
-				console.log(getTimestamp() + " --> MQTT connected" + mower_data);
             });
 
             mower.on('mqtt', (mower, mower_data) => {
-				//Get data
+		 console.log(getTimestamp() + " --> New data arrived");
+		//Get data
                 data = mower_data;
 				
 				//Run edge cutting handler
