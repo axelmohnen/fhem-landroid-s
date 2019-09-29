@@ -455,7 +455,7 @@
             console.log(getTimestamp() + " --> " + 'found!' + JSON.stringify(mower));
             });
 
-        mower.on('mqtt', (mower, mower_data) => {
+        worxCloud.on('mqtt', (mower, mower_data) => {
 		console.log(getTimestamp() + " --> New data arrived");
 		//Get data
                 data = mower_data;
