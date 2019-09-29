@@ -16,7 +16,7 @@
 	var WSRunning = false;
 	var server;
 	var mowerId;
-	var edgeCutting = false;
+	var edgeCuttingTrig = false;
 	
 	// Get Mower ID
 	function getMoverId(){
@@ -211,7 +211,7 @@
 		
 		// Fire MQTT Message
 		worxCloud.mower.sendMessage('{"cmd":4}'); //Start zone training
-		edgeCutting = true.
+		edgeCuttingTrig = true.
 				
 		// Set return status
 		cmdStatus.cmdState = true;
@@ -417,7 +417,7 @@
 	
 	function edgeCuttingHandler() {
 		//Check for edge cutting mode
-		if(!edgeCutting){
+		if(!edgeCuttingTrig){
 			return;
 		}
 		
@@ -432,11 +432,11 @@
         } else if (state === 34) {
 			setTimeout(function(){
                 worxCloud.mower.sendMessage('{"cmd":3}'); //Stop Mower (go home)
-				edgeCutting = false;
+				edgeCuttingTrig = false;
             }, 3000);
             
         } else if (state !== 31 && state !== 34) {
-            edgeCutting = false;
+            edgeCuttingTrig = false;
 			console.log(getTimestamp() + " --> " + "Something went wrong at edgeCutting");
         }
 	}
