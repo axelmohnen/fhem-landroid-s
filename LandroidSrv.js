@@ -455,22 +455,20 @@
             console.log(getTimestamp() + " --> " + 'found!' + JSON.stringify(mower));
             });
 
-            mower.on('mqtt', (mower, mower_data) => {
-		 console.log(getTimestamp() + " --> New data arrived");
+        mower.on('mqtt', (mower, mower_data) => {
+		console.log(getTimestamp() + " --> New data arrived");
 		//Get data
                 data = mower_data;
 				
-				//Run edge cutting handler
-				edgeCuttingHandler();
+		//Run edge cutting handler
+		edgeCuttingHandler();
 				
-				if (!WSRunning){
-					if (server.address() !== null){
-						WSRunning = true;
-						console.log(getTimestamp() + " --> Landroid WebServer: server running");
-					}
-				}
-            });
-
+		if (!WSRunning){
+			if (server.address() !== null){
+				WSRunning = true;
+				console.log(getTimestamp() + " --> Landroid WebServer: server running");
+			}
+		}
         });
 
         worxCloud.on('error', err => {
