@@ -152,7 +152,7 @@
 
 		if ((state === 1 || state === 34) && error == 0) {
 			// Fire MQTT Message
-			worxCloud.mower.sendMessage('{"cmd":1}'); //start code for mower
+			worxCloud.mower.sendMessage('{"cmd":1}', oMower.serial); //start code for mower
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -173,7 +173,7 @@
 		var error = (data.dat && data.dat.le ? data.dat.le : 0);
 		if ((state === 7 || state === 34) && error == 0) {
 			// Fire MQTT Message
-			worxCloud.mower.sendMessage('{"cmd":3}'); //"Back to home" code for mower
+			worxCloud.mower.sendMessage('{"cmd":3}', oMower.serial); //"Back to home" code for mower
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -193,7 +193,7 @@
 		var cmdStatus = { cmdState: false, msg: "" };
 
 		// Fire MQTT Message
-		worxCloud.mower.sendMessage('{"cmd":2}'); //pause code for mower
+		worxCloud.mower.sendMessage('{"cmd":2}', oMower.serial); //pause code for mower
 			
 		// Set return status
 		cmdStatus.cmdState = true;
@@ -211,7 +211,7 @@
 		//--> Stop Mower (cmd:3)
 		
 		// Fire MQTT Message
-		worxCloud.mower.sendMessage('{"cmd":4}'); //Start zone training
+		worxCloud.mower.sendMessage('{"cmd":4}', oMower.serial); //Start zone training
 		edgeCuttingTrig = true.
 				
 		// Set return status
@@ -286,7 +286,7 @@
 		message[dayId][2] = borderCut;
 			
 		// Fire MQTT Message
-		worxCloud.mower.sendMessage('{"sc":{"d":' + JSON.stringify(message) + '}}');
+		worxCloud.mower.sendMessage('{"sc":{"d":' + JSON.stringify(message) + '}}', oMower.serial);
 			
 		// Set return status
 		cmdStatus.cmdState = true;
@@ -303,7 +303,7 @@
 		if (!isNaN(val) && val >= -100 && val <= 100) {
 			message.p = val;
 			// Fire MQTT Message
-			worxCloud.mower.sendMessage('{"sc":' + JSON.stringify(message) + '}');
+			worxCloud.mower.sendMessage('{"sc":' + JSON.stringify(message) + '}', oMower.serial);
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -329,7 +329,7 @@
 			if (!isNaN(val[1]) && val[1] >= 0 && val[1] <= 500) {
 				message[areaID] = val[1];
 				// Fire MQTT Message
-				worxCloud.mower.sendMessage('{"mz":' + JSON.stringify(message) + '}');
+				worxCloud.mower.sendMessage('{"mz":' + JSON.stringify(message) + '}', oMower.serial);
 
 				// Set return status
 				cmdStatus.cmdState = true;
@@ -376,7 +376,7 @@
 				}
 			}
 			// Fire MQTT Message
-			worxCloud.mower.sendMessage('{"mzv":' + JSON.stringify(seq) + '}');
+			worxCloud.mower.sendMessage('{"mzv":' + JSON.stringify(seq) + '}', oMower.serial);
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -401,7 +401,7 @@
 		if (!isNaN(val) && val >= 0 && val <= 300) {
 			message = val;
 			// Fire MQTT Message
-			worxCloud.mower.sendMessage('{"rd":' + JSON.stringify(message) + '}');
+			worxCloud.mower.sendMessage('{"rd":' + JSON.stringify(message) + '}', oMower.serial);
 			
 			// Set return status
 			cmdStatus.cmdState = true;
@@ -427,12 +427,12 @@
 		
         if (state === 31) {
             setTimeout(function(){
-                worxCloud.mower.sendMessage('{"cmd":2}'); //Pause Mower
+                worxCloud.mower.sendMessage('{"cmd":2}', oMower.serial); //Pause Mower
             }, 3000);
  
         } else if (state === 34) {
 			setTimeout(function(){
-                worxCloud.mower.sendMessage('{"cmd":3}'); //Stop Mower (go home)
+                worxCloud.mower.sendMessage('{"cmd":3}', oMower.serial); //Stop Mower (go home)
 				edgeCuttingTrig = false;
             }, 3000);
             
