@@ -17,6 +17,7 @@
 	var server;
 	var mowerId;
 	var edgeCuttingTrig = false;
+	var oMower;
 	
 	// Get Mower ID
 	function getMoverId(){
@@ -453,6 +454,8 @@
 
         worxCloud.on('found', function (mower) {
             console.log(getTimestamp() + " --> " + 'found!' + JSON.stringify(mower));
+	    //Set mower instance
+		oMower = mower.
             });
 
         worxCloud.on('mqtt', (mower, mower_data) => {
