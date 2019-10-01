@@ -425,21 +425,25 @@
 		//Get actual mower state
 		var state = (data.dat && data.dat.ls ? data.dat.ls : 0);
 		
-        if (state === 31) {
-            setTimeout(function(){
-                worxCloud.sendMessage('{"cmd":2}', oMower.serial); //Pause Mower
-            }, 3000);
+        	if (state === 1 || state === 3){
+			console.log(getTimestamp() + " --> " + "Edgecut Start section :" + state);
+        	} else if (state === 31) {
+            		setTimeout(function(){
+				console.log(getTimestamp() + " --> " + "Edcut send cmd:2");
+                		worxCloud.sendMessage('{"cmd":2}', oMower.serial); //Pause Mower
+            		}, 3000);
  
-        } else if (state === 34) {
+        	} else if (state === 34) {
 			setTimeout(function(){
-                worxCloud.sendMessage('{"cmd":3}', oMower.serial); //Stop Mower (go home)
+				console.log(getTimestamp() + " --> " + "Edcut send cmd:3");
+                		worxCloud.sendMessage('{"cmd":3}', oMower.serial); //Stop Mower (go home)
 				edgeCuttingTrig = false;
-            }, 3000);
+            		}, 3000);
             
-        } else if (state !== 31 && state !== 34) {
-            edgeCuttingTrig = false;
+        	} else if (state !== 31 && state !== 34) {
+            		edgeCuttingTrig = false;
 			console.log(getTimestamp() + " --> " + "Something went wrong at edgeCutting");
-        }
+        	}
 	}
 	
 	function main() {
