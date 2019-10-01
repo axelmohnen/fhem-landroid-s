@@ -455,7 +455,7 @@
         worxCloud.on('found', function (mower) {
             console.log(getTimestamp() + " --> " + 'found!' + JSON.stringify(mower));
 	    //Set mower instance
-		oMower = mower.
+		oMower = mower;
             });
 
         worxCloud.on('mqtt', (mower, mower_data) => {
