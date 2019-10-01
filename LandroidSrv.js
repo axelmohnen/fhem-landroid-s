@@ -212,7 +212,7 @@
 		
 		// Fire MQTT Message
 		worxCloud.sendMessage('{"cmd":4}', oMower.serial); //Start zone training
-		edgeCuttingTrig = true.
+		edgeCuttingTrig = true;
 				
 		// Set return status
 		cmdStatus.cmdState = true;
