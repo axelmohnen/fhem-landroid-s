@@ -24,7 +24,7 @@
 #
 # -------------------------------------------------------------------------------------------------
 #  74_LANDROID.pm
-#  v1.7
+#  v1.8
 # -------------------------------------------------------------------------------------------------
 
 package main;
@@ -655,11 +655,11 @@ sub LANDROID_RetrieveReadings($){
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	 $t = "areasAreaAct";
-	 $v = $data_decoded->{'dat'} && $areaAct[$data_decoded->{'dat'}{'lz'}] ? $areaAct[$data_decoded->{'dat'}{'lz'}] : undef;
+	 $v = $data_decoded->{'dat'} && $areaAct[$data_decoded->{'dat'}{'lz'}] ? $areaAct[$data_decoded->{'dat'}{'lz'}] : 0;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	 $t = "areasAreaActInd";
-	 $v = $data_decoded->{'dat'} && $data_decoded->{'dat'}{'lz'} ? $data_decoded->{'dat'}{'lz'} : undef;
+	 $v = $data_decoded->{'dat'} && $data_decoded->{'dat'}{'lz'} ? $data_decoded->{'dat'}{'lz'} : 0;
 	 readingsBulkUpdate( $hash, $t, $v ) if( $t =~ m/[a-z]/s && defined( $t ) && defined( $v ) );
 	
 	 $t = "areasStartSequence";
