@@ -73,7 +73,8 @@ sub LANDROID_Define($$) {
     $hash->{helper}{requestErrorCounter} = 0;
     $hash->{helper}{setErrorCounter} = 0;
     # ---------- Init persistent readings value ---------------------------------------------------
-    readingsSingleUpdate ( $hash, ".bladeTimeOffset", 0, 1 );
+    # IS THE DEFINE EVENT TRIGGERED FOR EVERY RESTART OF FHEM?
+    #readingsSingleUpdate ( $hash, ".bladeTimeOffset", 0, 1 );
 
 	Log3 $name, 3, "LANDROID ($name) - defined with host $hash->{HOST} on port $hash->{PORT} and interval $hash->{INTERVAL} (sec)";
 	
