@@ -20,7 +20,8 @@ Worx Landroid-S Module for FHEM SmartHome. Compatible with Worx Landroid S/M/L M
 			Trigger stopMower while Pause
 - 1.7 (01.10.19):	Compatible with ioBroker.worx from MeisterTR
 			edgeCutting
-- 1.8 (08.05.20):	Bugfix: Zone1
+- 1.8 (08.05.20):	Bugfix: Zone1 issue (Area 0)
+			BladeTimeCounter issue
 ```
 Installation Guide on Raspberry PI (Debian)
 
