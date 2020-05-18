@@ -427,7 +427,7 @@
 		
         	if (state === 1 || state === 3){
 			console.log(getTimestamp() + " --> " + "Edgecut Start section :" + state);
-        	} else if (state === 7 || state === 33) { //Mowing|| Searching Zone
+        	} else if (state === 2 || state === 7 || state === 33) { //Start squence || Mowing || Searching Zone
             		setTimeout(function(){
 				console.log(getTimestamp() + " --> " + "Edcut send cmd:2");
                 		worxCloud.sendMessage('{"cmd":2}', oMower.serial); //Pause Mower
@@ -440,7 +440,7 @@
 				edgeCuttingTrig = false;
             		}, 5000);
             
-        	} else if (state !== 7 && state !== 33 && state !== 34) {
+        	} else if (state !== 2 && state !== 7 && state !== 33 && state !== 34) {
             		edgeCuttingTrig = false;
 			console.log(getTimestamp() + " --> " + "Something went wrong at edgeCutting");
         	}
