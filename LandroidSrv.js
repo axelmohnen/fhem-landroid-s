@@ -302,6 +302,7 @@
 		// Validate and set Mower Time Extend
 		if (!isNaN(val) && val >= -100 && val <= 100) {
 			message.p = val;
+			delete message.ots;
 			// Fire MQTT Message
 			worxCloud.sendMessage('{"sc":' + JSON.stringify(message) + '}', oMower.serial);
 			
