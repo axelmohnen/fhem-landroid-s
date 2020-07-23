@@ -23,6 +23,7 @@ Worx Landroid-S Module for FHEM SmartHome. Compatible with Worx Landroid S/M/L M
 - 1.8 (08.05.20):	Bugfix: Zone1 issue (Area 0)
 			BladeTimeCounter issue
 			Edgecutting seq. changed: Start/wait 5 sec/Pause/wait 5 sec/Stop
+			Version 3.13 compatible
 ```
 Installation Guide on Raspberry PI (Debian)
 
