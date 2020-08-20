@@ -204,14 +204,14 @@
 	function edgeCutting() {
 		var cmdStatus = { cmdState: false, msg: "" };
 		//Edge cutting for mower
-		//--> Start Mower (cmd:1)
-		//--> wait 5 sec
+		//--> Start zone training (cmd:4)
+		//--> wait 3 sec
 		//--> Pause Mower (cmd:2)
-		//--> wait 5 sec
+		//--> wait 3 sec
 		//--> Stop Mower (cmd:3)
 		
 		// Fire MQTT Message
-		worxCloud.sendMessage('{"cmd":1}', oMower.serial); //Start Mower
+		worxCloud.sendMessage('{"cmd":4}', oMower.serial); //Start zone training
 		edgeCuttingTrig = true;
 				
 		// Set return status
@@ -418,7 +418,7 @@
 	}
 	
 	function edgeCuttingHandler() {
-		//Check for edge cutting mode
+//Check for edge cutting mode
 		if(!edgeCuttingTrig){
 			return;
 		}
@@ -428,20 +428,20 @@
 		
         	if (state === 1 || state === 3){
 			console.log(getTimestamp() + " --> " + "Edgecut Start section :" + state);
-        	} else if (state === 2 || state === 7 || state === 33) { //Start squence || Mowing || Searching Zone
+        	} else if (state === 31) {
             		setTimeout(function(){
 				console.log(getTimestamp() + " --> " + "Edcut send cmd:2");
                 		worxCloud.sendMessage('{"cmd":2}', oMower.serial); //Pause Mower
-            		}, 5000);
+            		}, 3000);
  
-        	} else if (state === 34) { //Pause
+        	} else if (state === 34) {
 			setTimeout(function(){
 				console.log(getTimestamp() + " --> " + "Edcut send cmd:3");
                 		worxCloud.sendMessage('{"cmd":3}', oMower.serial); //Stop Mower (go home)
 				edgeCuttingTrig = false;
-            		}, 5000);
+            		}, 3000);
             
-        	} else if (state !== 2 && state !== 7 && state !== 33 && state !== 34) {
+        	} else if (state !== 31 && state !== 34) {
             		edgeCuttingTrig = false;
 			console.log(getTimestamp() + " --> " + "Something went wrong at edgeCutting");
         	}
